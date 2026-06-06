@@ -4,7 +4,7 @@ from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
 from config import BOT_TOKEN
 import database as db
-from handlers import start, daromad, nasiya, tovar, hisobot
+from handlers import start, daromad, nasiya, tovar, hisobot, admin
 
 async def main():
     logging.basicConfig(level=logging.INFO)
@@ -16,6 +16,7 @@ async def main():
     dp.include_router(nasiya.router)
     dp.include_router(tovar.router)
     dp.include_router(hisobot.router)
+    dp.include_router(admin.router)
 
     await db.init_db()
     print("✅ Бот запущен!")
