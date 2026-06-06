@@ -1,6 +1,8 @@
+import database as db
 from aiogram import Router, F
 from aiogram.types import Message, ReplyKeyboardMarkup, KeyboardButton
 from aiogram.filters import CommandStart
+import database as db
 
 router = Router()
 
