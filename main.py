@@ -2,21 +2,13 @@ import asyncio
 import logging
 from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
-from aiogram.client.session.aiohttp import AiohttpSession
-from aiohttp_socks import ProxyConnector
-import aiohttp
 from config import BOT_TOKEN
 import database as db
 from handlers import start, daromad, nasiya, tovar, hisobot
 
 async def main():
     logging.basicConfig(level=logging.INFO)
-
-    connector = ProxyConnector.from_url("socks5://103.231.12.249:1080")
-    session = AiohttpSession()
-    session._connector = connector
-
-    bot = Bot(token=BOT_TOKEN, session=session)
+    bot = Bot(token=BOT_TOKEN)
     dp = Dispatcher(storage=MemoryStorage())
 
     dp.include_router(start.router)
