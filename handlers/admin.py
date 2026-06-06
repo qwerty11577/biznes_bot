@@ -16,9 +16,12 @@ async def admin_panel(message: Message):
     users = await db.get_all_users()
     text = "👑 Панель администратора\n"
     text += "━━━━━━━━━━━━━━━\n"
-    text += f"👥 Пользователей: {len(users)} чел.\n\n"
+    text += f"👥 Всего пользователей: {len(users)} чел.\n\n"
     for user in users:
-        text += f"▪️ ID: {user[0]} — последняя активность: {user[1]}\n"
+        user_id, username, full_name, joined, last_seen = user
+        uname = f"@{username}" if username else "нет username"
+        text += f"▪️ {full_name} ({uname})\n"
+        text += f"   Зашёл: {last_seen[:10]}\n\n"
     
     await message.answer(text)
 

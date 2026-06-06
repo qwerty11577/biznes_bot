@@ -104,3 +104,40 @@ async def update_product_quantity(product_id, quantity):
     async with aiosqlite.connect(DB_NAME) as db:
         await db.execute("UPDATE products SET quantity=? WHERE id=?", (quantity, product_id))
         await db.commit()
+
+
+async def get_all_users():
+    async with aiosqlite.connect(DB_NAME) as db:
+        async with db.execute(
+            "SELECT DISTINCT user_id, MAX(date) FROM transactions GROUP BY user_id"
+        ) as cursor:
+            return await cursor.fetchall()
+        
+async def save_user(user_id, username, full_name):
+    async with aiosqlite.connect(DB_NAME) as db:
+        await db.execute('''CREATE TABLE IF NOT EXISTS users (
+            user_id INTEGER PRIMARY KEY,
+            username TEXT,
+            full_name TEXT,
+            joined_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            last_seen TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )''')
+        await db.execute('''INSERT OR REPLACE INTO users 
+            (user_id, username, full_name, last_seen) 
+            VALUES (?, ?, ?, CURRENT_TIMESTAMP)''',
+            (user_id, username, full_name))
+        await db.commit()
+
+async def get_all_users():
+    async with aiosqlite.connect(DB_NAME) as db:
+        await db.execute('''CREATE TABLE IF NOT EXISTS users (
+            user_id INTEGER PRIMARY KEY,
+            username TEXT,
+            full_name TEXT,
+            joined_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            last_seen TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )''')
+        async with db.execute(
+            "SELECT user_id, username, full_name, joined_date, last_seen FROM users ORDER BY last_seen DESC"
+        ) as cursor:
+            return await cursor.fetchall()

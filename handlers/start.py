@@ -17,6 +17,11 @@ def main_menu():
 
 @router.message(CommandStart())
 async def start(message: Message):
+    await db.save_user(
+        message.from_user.id,
+        message.from_user.username,
+        message.from_user.full_name
+    )
     await message.answer(
         f"Привет, {message.from_user.first_name}! 👋\n\n"
         "Этот бот поможет вам управлять вашим бизнесом.\n\n"
