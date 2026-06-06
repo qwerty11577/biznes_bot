@@ -9,7 +9,7 @@ def main_menu():
         keyboard=[
             [KeyboardButton(text="💰 Доход"), KeyboardButton(text="💸 Расход")],
             [KeyboardButton(text="👥 Долги"), KeyboardButton(text="📦 Товары")],
-            [KeyboardButton(text="📊 Отчёт")],
+            [KeyboardButton(text="📊 Отчёт"), KeyboardButton(text="📥 Excel отчёт")],
         ],
         resize_keyboard=True
     )
